@@ -104,12 +104,12 @@ public class ToggleCommand extends PKCommand {
 				} else {
 					GeneralMethods.sendBrandingMessage(sender, color + this.toggledOffSingleElement.replace("{element}", e.getName() + (e.getType() != null ? e.getType().getBending() : "")));
 				}
-			}  else if (sender instanceof Player && args.size() == 1 && !args.get(0).equals("Passives") && Element.fromString(args.get(0).split("Passives")[0]) != null && !(Element.fromString(args.get(0).split("Passives")[0]) instanceof SubElement)) {
-				if (!BendingPlayer.getBendingPlayer(sender.getName()).hasElement(Element.fromString(args.get(0).split("Passives")[0]))) {
+			}  else if (sender instanceof Player && args.size() == 1 && !args.get(0).equalsIgnoreCase("passives") && Element.fromString(args.get(0).toLowerCase().split("passives")[0]) != null && !(Element.fromString(args.get(0).toLowerCase().split("passives")[0]) instanceof SubElement)) {
+				if (!BendingPlayer.getBendingPlayer(sender.getName()).hasElement(Element.fromString(args.get(0).toLowerCase().split("passives")[0]))) {
 					GeneralMethods.sendBrandingMessage(sender, ChatColor.RED + this.wrongElement);
 					return;
 				}
-				final Element e = Element.fromString(args.get(0).split("Passives")[0]);
+				final Element e = Element.fromString(args.get(0).toLowerCase().split("passives")[0]);
 				final ChatColor color = e != null ? e.getColor() : null;
 				final BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(sender.getName());
 				bPlayer.togglePassive(e);
@@ -119,16 +119,15 @@ public class ToggleCommand extends PKCommand {
 				} else {
 					GeneralMethods.sendBrandingMessage(sender, color + this.toggledOffSingleElementPassive.replace("{element}", e.getName() + (e.getType() != null ? e.getType().getBending() : "")));
 				}
-			} else if (sender instanceof Player && args.size() == 1 && args.get(0).equals("Passives")) {
+			} else if (sender instanceof Player && args.size() == 1 && args.get(0).equalsIgnoreCase("passives")) {
 				BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(sender.getName());
 
 				if (bPlayer.isToggledPassives()) {
 					GeneralMethods.sendBrandingMessage(sender, ChatColor.RED + this.toggleAllPassivesOffSelf);
-					bPlayer.toggleAllPassives();
 				} else {
 					GeneralMethods.sendBrandingMessage(sender, ChatColor.GREEN + this.toggleAllPassivesOnSelf);
-					bPlayer.toggleAllPassives();
 				}
+				bPlayer.toggleAllPassives();
 			} else {
 				this.help(sender, false);
 			}
